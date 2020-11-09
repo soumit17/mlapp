@@ -4,7 +4,8 @@ import numpy as np
 import flasgger
 from flasgger import Swagger
 import tensorflow.keras
-from PIL import Image, ImageOps
+# from PIL import Image, ImageOps
+import Image
 
 app=Flask(__name__)
 Swagger(app)
@@ -49,7 +50,7 @@ def predict():
         required: true
     responses:
         200:
-            description: The output values
+            description: The output cost
         
     """
     insurance_cost=model_insurance.predict([[int(request.args['age']),
