@@ -4,8 +4,7 @@ import numpy as np
 import flasgger
 from flasgger import Swagger
 import tensorflow.keras
-# from PIL import Image, ImageOps
-import Image
+from PIL import Image, ImageOps
 
 app=Flask(__name__)
 Swagger(app)
