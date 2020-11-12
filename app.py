@@ -5,6 +5,7 @@ import flasgger
 from flasgger import Swagger
 import tensorflow.keras
 from PIL import Image, ImageOps
+import io
 
 app=Flask(__name__)
 Swagger(app)
@@ -59,6 +60,31 @@ def predict():
                                 int(request.args['smoker']),
                                 int(request.args['region'])]])
     return str(round(insurance_cost[0],2))
+    
+@app.route('/car_damage_B24',methods=["POST"])
+def predict_car_damage_B24():
+    """Check car is damaged or not
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: file
+        in: formData
+        type: file
+        required: true
+      
+    responses:
+        200:
+            description: Output result
+        
+    """
+    image = Image.open(io.BytesIO(base64.b64decode(request.files.get("file"))))
+    size = (224, 224)
+    image = ImageOps.fit(image, size, Image.ANTIALIAS)
+    image_array = np.asarray(image)
+    normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+    data[0] = normalized_image_array
+    prediction = model_cardam.predict(data)
+    return str('Car is Damaged!' if prediction[0][0]>.5 else 'Car is Good!')
     
 @app.route('/car_damage',methods=["POST"])
 def predict_car_damage():
