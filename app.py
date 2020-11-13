@@ -68,7 +68,7 @@ def predict_car_damage_B24():
     This is using docstrings for specifications.
     ---
     parameters:
-      - name: text
+      - name: image
         in: formData
         type: text
         required: true
@@ -78,7 +78,7 @@ def predict_car_damage_B24():
             description: Output result
         
     """
-    inputdata = request.form['text']
+    inputdata = request.form['image']
     imgdata=base64.b64decode(bytes(str(inputdata)[2:], 'ascii'))
     im = Image.open(io.BytesIO(imgdata))
     size = (224, 224)
@@ -95,9 +95,9 @@ def predict_car_damage():
     This is using docstrings for specifications.
     ---
     parameters:
-      - name: file
+      - name: imagefile
         in: formData
-        type: text
+        type: file
         required: true
       
     responses:
@@ -105,7 +105,7 @@ def predict_car_damage():
             description: Output result
         
     """
-    image = Image.open(request.files.get("file"))
+    image = Image.open(request.files.get("imagefile"))
     size = (224, 224)
     image = ImageOps.fit(image, size, Image.ANTIALIAS)
     image_array = np.asarray(image)
