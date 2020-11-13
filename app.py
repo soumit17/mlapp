@@ -6,6 +6,7 @@ from flasgger import Swagger
 import tensorflow.keras
 from PIL import Image, ImageOps
 import io
+import base64
 
 app=Flask(__name__)
 Swagger(app)
@@ -67,9 +68,9 @@ def predict_car_damage_B24():
     This is using docstrings for specifications.
     ---
     parameters:
-      - name: file
+      - name: text
         in: formData
-        type: file
+        type: text
         required: true
       
     responses:
@@ -77,9 +78,11 @@ def predict_car_damage_B24():
             description: Output result
         
     """
-    image = Image.open(io.BytesIO(base64.b64decode(request.files.get("file"))))
+    inputdata = request.form['text']
+    imgdata=base64.b64decode(bytes(str(inputdata)[2:], 'ascii'))
+    im = Image.open(io.BytesIO(imgdata))
     size = (224, 224)
-    image = ImageOps.fit(image, size, Image.ANTIALIAS)
+    image = ImageOps.fit(im, size, Image.ANTIALIAS)
     image_array = np.asarray(image)
     normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
     data[0] = normalized_image_array
@@ -94,7 +97,7 @@ def predict_car_damage():
     parameters:
       - name: file
         in: formData
-        type: file
+        type: text
         required: true
       
     responses:
