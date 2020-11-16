@@ -29,7 +29,10 @@ category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABE
 
 def B64argtoCV2(argname):
     inputdata = request.form[argname]
-    im_bytes = base64.b64decode(bytes(str(inputdata)[2:], 'ascii'))
+    if str(inputdata)[:2] == "b'":
+        im_bytes = base64.b64decode(bytes(str(inputdata)[2:], 'ascii'))
+    else:
+        im_bytes=base64.b64decode(inputdata)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)  # im_arr is one-dim Numpy array
     return cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
 
