@@ -7,6 +7,7 @@
 - Clone repo and run app.py to deploy models on flask for deploying the three model via FLASK and API UI Flassger (can be accessed via port/apidocs/)
 - Import dependencies check [https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/]( https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/)
 - Find them running on [www.neurosymph.com](www.neurosymph.com)
+- check [garbage_object_detection.ipynb](garbage_object_detection.ipynb) for model training steps 
 
 <p align="center">
   <img src="demopic.jpeg">
